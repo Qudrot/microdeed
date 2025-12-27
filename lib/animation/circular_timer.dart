@@ -1,9 +1,10 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:microdeed/design_system/spacers.dart';
 import '../design_system/colors.dart';
 import '../design_system/styles.dart';
-import '../design_system/spacers.dart';
+
 
 class CircularTimer extends StatefulWidget {
   const CircularTimer({super.key, required this.duration});
@@ -58,7 +59,7 @@ class _CircularTimerState extends State<CircularTimer>
               return CustomPaint(
                 painter: CircleTimerPainter(
                   progress: 1 - _animationController.value,
-                  strokeWidth: 12,
+                  strokeWidth: Spacers.sm,
                 ),
                 size: Size(size, size),
               );
@@ -70,16 +71,14 @@ class _CircularTimerState extends State<CircularTimer>
               AnimatedBuilder(
                 animation: _animationController,
                 builder: (context, child) {
-                  return Text(
-                    timeRemaining,
-                    style: Styles.timerDisplay,
-                  );
+                  return Text(timeRemaining, style: Styles.timerDisplay);
                 },
               ),
-             // const SizedBox(height: 4),
               Text(
                 "remaining",
-                style: Styles.captionMedium.copyWith(color: DSColors.secondaryText),
+                style: Styles.captionMedium.copyWith(
+                  color: DSColors.secondaryText,
+                ),
               ),
             ],
           ),
@@ -93,10 +92,7 @@ class CircleTimerPainter extends CustomPainter {
   final double progress;
   final double strokeWidth;
 
-  CircleTimerPainter({
-    required this.progress,
-    required this.strokeWidth,
-  });
+  CircleTimerPainter({required this.progress, required this.strokeWidth});
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -113,7 +109,7 @@ class CircleTimerPainter extends CustomPainter {
 
     // Progress arc (use design system CTA color)
     final progressPaint = Paint()
-      ..color = DSColors.ctaTeal
+      ..color = DSColors.tealMain
       ..style = PaintingStyle.stroke
       ..strokeWidth = strokeWidth
       ..strokeCap = StrokeCap.round;
@@ -131,6 +127,7 @@ class CircleTimerPainter extends CustomPainter {
 
   @override
   bool shouldRepaint(CircleTimerPainter oldDelegate) {
-    return oldDelegate.progress != progress || oldDelegate.strokeWidth != strokeWidth;
+    return oldDelegate.progress != progress ||
+        oldDelegate.strokeWidth != strokeWidth;
   }
 }

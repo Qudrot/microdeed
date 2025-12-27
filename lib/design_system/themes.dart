@@ -36,10 +36,10 @@ ThemeData dsTheme() {
     elevatedButtonTheme: ElevatedButtonThemeData(
       style: ElevatedButton.styleFrom(
         minimumSize: const Size.fromHeight(64),
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(32)),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(Spacers.xl)),
         backgroundColor: DSColors.ctaTeal,
         foregroundColor: Colors.white,
-        textStyle: Styles.bodyRegular.copyWith(fontWeight: FontWeight.w600, fontSize: 20),
+        textStyle: Styles.bodyRegular.copyWith(fontWeight: FontWeight.w600, fontSize: Spacers.mmd),
         padding: EdgeInsets.symmetric(horizontal: Spacers.lg),
         elevation: DSShadows.card[0].blurRadius,
         shadowColor: DSShadows.card[0].color,
@@ -52,7 +52,7 @@ ThemeData dsTheme() {
       elevation: DSShadows.card[0].blurRadius,
       shadowColor: DSShadows.card[0].color,
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(Spacers.sm),
         side: DSBorders.card,
       ),
       margin: EdgeInsets.only(bottom: Spacers.md),
