@@ -6,8 +6,8 @@ class DSShadows {
   static final List<BoxShadow> card = [
     const BoxShadow(
       color: Color(0x26000000), // 15% black
-      blurRadius: 8.0,
-      offset: Offset(0, 4),
+      blurRadius: 2.0,
+      offset: Offset(0, 1),
     ),
   ];
 

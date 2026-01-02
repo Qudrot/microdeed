@@ -49,9 +49,15 @@ class _TimerPageState extends State<TimerPage> {
                   color: DSColors.secondaryText,
                 ),
               ),
-              const SizedBox(height: Spacers.lg),
+
+              const SizedBox(height: Spacers.mmd),
+
+              // Timer
               const CircularTimer(duration: Duration(minutes: 10)),
-              const SizedBox(height: Spacers.md),
+
+              const SizedBox(height: Spacers.sm),
+
+              // On track
               Container(
                 alignment: Alignment.center,
                 //padding: EdgeInsets.all(16),
@@ -70,7 +76,9 @@ class _TimerPageState extends State<TimerPage> {
                       color: DSColors.tealMain,
                       size: Spacers.sm,
                     ),
-                    SizedBox(width: Spacers.base),
+
+                    const SizedBox(width: Spacers.base),
+
                     Text(
                       "On track",
                       style: Styles.microSmall.copyWith(
@@ -80,31 +88,79 @@ class _TimerPageState extends State<TimerPage> {
                   ],
                 ),
               ),
-              Container(
-                decoration: BoxDecoration(
-                  color: DSColors.surface,
-                  //border: OutlinedBorder
-                  borderRadius: BorderRadius.circular(Spacers.sm),
-                  boxShadow: DSShadows.elevated,
-                ),
-                padding: EdgeInsets.all(Spacers.md),
-                child: Column(
-                  children: [
-                    Row(
-                      children: [
-                        Text("Task Steps", style: Styles.base),
-                        Spacer(),
-                        IconButton(
-                          onPressed: () {},
-                          icon: Icon(
-                            Icons.arrow_drop_down,
-                            color: DSColors.primaryText,
+
+              const SizedBox(height: Spacers.base),
+
+              // Task steps
+              Expanded(
+                child: Container(
+                  margin: const EdgeInsets.all(Spacers.md),
+                  padding: const EdgeInsets.all(Spacers.md),
+                  decoration: BoxDecoration(
+                    color: DSColors.surface,
+                    borderRadius: BorderRadius.circular(Spacers.sm),
+                    boxShadow: DSShadows.card,
+                    border: Border.all(color: DSColors.background, width: 1.5),
+                  ),
+
+                  child: Column(
+                    children: [
+                      // Task header
+                      Row(
+                        children: [
+                          Text(
+                            "Task Steps",
+                            style: Styles.base.copyWith(
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
+                          Spacer(),
+                          IconButton(
+                            onPressed: () {},
+                            icon: Icon(
+                              Icons.arrow_drop_down,
+                              color: DSColors.primaryText,
+                            ),
+                          ),
+                        ],
+                      ),
+
+                      // Task card
+                      Expanded(
+                        child: Column(
+                          children: [
+                            TaskCard(
+                              isActive: false,
+                              isDone: true,
+                              taskNumber: "1",
+                            ),
+                            TaskCard(
+                              isActive: true,
+                              isDone: false,
+                              taskNumber: "2",
+                            ),
+                            TaskCard(
+                              isActive: false,
+                              isDone: false,
+                              taskNumber: "3",
+                            ),
+                          ],
                         ),
-                      ],
-                    ),
-                    TaskCard(),
-                  ],
+                      ),
+
+                      // Minimize
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text("Minimize", style: Styles.captionMedium),
+                          IconButton(
+                            onPressed: () {},
+                            icon: Icon(Icons.arrow_drop_up),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ],
@@ -114,4 +170,3 @@ class _TimerPageState extends State<TimerPage> {
     );
   }
 }
-

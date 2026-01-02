@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'dart:ui' show FontFeature;
 import 'package:google_fonts/google_fonts.dart';
 import 'package:microdeed/design_system/spacers.dart';
 import 'colors.dart';

@@ -23,4 +23,7 @@ class DSColors {
   static const Color success = Color(0xFF10B981);
   static const Color urgency = Color(0xFFFF8C00);
   static const Color critical = Color(0xFFFF6B6B);
+
+  // No border
+  static const BorderSide nonen = BorderSide.none;
 }
