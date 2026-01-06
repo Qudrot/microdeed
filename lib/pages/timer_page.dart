@@ -4,6 +4,7 @@ import 'package:microdeed/design_system/colors.dart';
 import 'package:microdeed/design_system/shadows.dart';
 import 'package:microdeed/design_system/spacers.dart';
 import 'package:microdeed/design_system/styles.dart';
+import 'package:microdeed/widgets/InfoBadge.dart';
 import 'package:microdeed/widgets/taskcard.dart';
 
 //const Color backgroundColor = Color(0xFFF8FDF8);
@@ -68,25 +69,7 @@ class _TimerPageState extends State<TimerPage> {
                   borderRadius: BorderRadius.circular(Spacers.mmd),
                 ),
 
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Icon(
-                      Icons.check_circle_outline,
-                      color: DSColors.tealMain,
-                      size: Spacers.sm,
-                    ),
-
-                    const SizedBox(width: Spacers.base),
-
-                    Text(
-                      "On track",
-                      style: Styles.microSmall.copyWith(
-                        color: DSColors.tealMain,
-                      ),
-                    ),
-                  ],
-                ),
+                child: InfoBadge(),
               ),
 
               const SizedBox(height: Spacers.base),
@@ -170,3 +153,4 @@ class _TimerPageState extends State<TimerPage> {
     );
   }
 }
+
