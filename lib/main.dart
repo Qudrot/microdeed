@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:microdeed/design_system/themes.dart';
+import 'package:microdeed/pages/opportunity_page.dart';
 import 'package:microdeed/pages/timer_page.dart';
 
 void main() {
@@ -16,7 +17,7 @@ class MyApp extends StatelessWidget {
       title: 'Microdeed App',
       theme: dsTheme(),
       debugShowCheckedModeBanner: false,
-      home: const TimerPage(),
+      home: const OpportunityPage(),
     );
   }
 }

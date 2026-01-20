@@ -29,7 +29,7 @@ class _TimerPageState extends State<TimerPage> {
           actions: [
             IconButton(
               onPressed: () {},
-              icon: const Icon(Icons.cancel_outlined),
+              icon: const Icon(Icons.cancel_rounded),
             ),
           ],
         ),
