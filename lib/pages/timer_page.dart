@@ -7,8 +7,6 @@ import 'package:microdeed/design_system/styles.dart';
 import 'package:microdeed/widgets/InfoBadge.dart';
 import 'package:microdeed/widgets/taskcard.dart';
 
-//const Color backgroundColor = Color(0xFFF8FDF8);
-
 class TimerPage extends StatefulWidget {
   const TimerPage({super.key});
 
@@ -17,7 +15,8 @@ class TimerPage extends StatefulWidget {
 }
 
 class _TimerPageState extends State<TimerPage> {
-  final isActive = false;
+  bool _isTaskListExpanded = true;
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -29,7 +28,7 @@ class _TimerPageState extends State<TimerPage> {
           actions: [
             IconButton(
               onPressed: () {},
-              icon: const Icon(Icons.cancel_rounded),
+              icon: const Icon(Icons.cancel_outlined),
             ),
           ],
         ),
@@ -37,6 +36,7 @@ class _TimerPageState extends State<TimerPage> {
           child: Column(
             //crossAxisAlignment: CrossAxisAlignment.center,
             children: [
+              // Header info
               Text(
                 'Sorted donated books',
                 style: Styles.bodyRegular.copyWith(
@@ -59,17 +59,9 @@ class _TimerPageState extends State<TimerPage> {
               const SizedBox(height: Spacers.sm),
 
               // On track
-              Container(
-                alignment: Alignment.center,
-                //padding: EdgeInsets.all(16),
-                width: Spacers.x5l,
-                height: Spacers.xl,
-                decoration: BoxDecoration(
-                  color: DSColors.tealLight,
-                  borderRadius: BorderRadius.circular(Spacers.mmd),
-                ),
-
-                child: InfoBadge(),
+              InfoBadge(
+                fillColor: DSColors.tealLight,
+                itemColor: DSColors.tealMain,
               ),
 
               const SizedBox(height: Spacers.base),
@@ -83,7 +75,7 @@ class _TimerPageState extends State<TimerPage> {
                     color: DSColors.surface,
                     borderRadius: BorderRadius.circular(Spacers.sm),
                     boxShadow: DSShadows.card,
-                    border: Border.all(color: DSColors.background, width: 1.5),
+                    border: Border.all(color: DSColors.background, width: 1),
                   ),
 
                   child: Column(
@@ -97,7 +89,7 @@ class _TimerPageState extends State<TimerPage> {
                               fontWeight: FontWeight.bold,
                             ),
                           ),
-                          Spacer(),
+                          const Spacer(),
                           IconButton(
                             onPressed: () {},
                             icon: Icon(
@@ -108,10 +100,11 @@ class _TimerPageState extends State<TimerPage> {
                         ],
                       ),
 
-                      // Task card
+                      // Task list
                       Expanded(
-                        child: Column(
-                          children: [
+                        child: ListView(
+                          padding: EdgeInsets.symmetric(horizontal: Spacers.md),
+                          children: const [
                             TaskCard(
                               isActive: false,
                               isDone: true,
@@ -131,17 +124,19 @@ class _TimerPageState extends State<TimerPage> {
                         ),
                       ),
 
-                      // Minimize
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text("Minimize", style: Styles.captionMedium),
-                          IconButton(
-                            onPressed: () {},
-                            icon: Icon(Icons.arrow_drop_up),
+                      // Minimize button
+                      if (!_isTaskListExpanded)
+                        TextButton(
+                          onPressed: () =>
+                              setState(() => _isTaskListExpanded = true),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text("Minimize", style: Styles.captionMedium),
+                              Icon(Icons.arrow_drop_up),
+                            ],
                           ),
-                        ],
-                      ),
+                        ),
                     ],
                   ),
                 ),
@@ -153,4 +148,3 @@ class _TimerPageState extends State<TimerPage> {
     );
   }
 }
-
