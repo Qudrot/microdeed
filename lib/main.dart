@@ -17,7 +17,7 @@ class MyApp extends StatelessWidget {
       title: 'Microdeed App',
       theme: dsTheme(),
       debugShowCheckedModeBanner: false,
-      home: const TimerPage(),
+      home: const OpportunityPage(),
     );
   }
 }
