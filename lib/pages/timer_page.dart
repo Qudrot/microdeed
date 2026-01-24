@@ -6,6 +6,7 @@ import 'package:microdeed/design_system/spacers.dart';
 import 'package:microdeed/design_system/styles.dart';
 import 'package:microdeed/widgets/InfoBadge.dart';
 import 'package:microdeed/widgets/taskcard.dart';
+import 'package:microdeed/pages/completion_page.dart';
 
 class TimerPage extends StatefulWidget {
   const TimerPage({super.key});
@@ -16,6 +17,20 @@ class TimerPage extends StatefulWidget {
 
 class _TimerPageState extends State<TimerPage> {
   bool _isTaskListExpanded = true;
+
+  @override
+  void initState() {
+    super.initState();
+    // Simulate timer finishing after 5 seconds for demo
+    Future.delayed(const Duration(seconds: 5), () {
+      if (mounted) {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => const CompletionPage()),
+        );
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {

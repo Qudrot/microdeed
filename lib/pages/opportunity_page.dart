@@ -2,11 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:microdeed/design_system/colors.dart';
 import 'package:microdeed/design_system/spacers.dart';
 import 'package:microdeed/design_system/styles.dart';
+import 'package:microdeed/pages/activity_page.dart';
+import 'package:microdeed/pages/impact_page.dart';
+import 'package:microdeed/pages/opportunity_detail_page.dart';
+import 'package:microdeed/pages/profile_page.dart';
+import 'package:microdeed/widgets/map_view.dart' show MapView;
 import 'package:microdeed/widgets/opportunity_card.dart';
-import 'package:microdeed/widgets/map_view.dart';
-
 class OpportunityPage extends StatefulWidget {
-  const OpportunityPage({super.key});
+  final int initialIndex;
+  const OpportunityPage({super.key, this.initialIndex = 0});
 
   @override
   State<OpportunityPage> createState() => _OpportunityPageState();
@@ -14,6 +18,13 @@ class OpportunityPage extends StatefulWidget {
 
 class _OpportunityPageState extends State<OpportunityPage> {
   bool _showMap = false;
+  late int _currentIndex;
+
+  @override
+  void initState() {
+    super.initState();
+    _currentIndex = widget.initialIndex;
+  }
 
   void _toggleView(bool showMap) {
     setState(() {
@@ -22,10 +33,71 @@ class _OpportunityPageState extends State<OpportunityPage> {
   }
 
   @override
+  @override
   Widget build(BuildContext context) {
+    // If not on Discover tab (0), show relevant page.
+    // Index 0: Discover (Map/List)
+    // Index 1: Activity
+    // Index 2: Impact
+    // Index 3: Profile (Placeholder)
+    
+    Widget bodyContent;
+    
+    switch (_currentIndex) {
+      case 1:
+        bodyContent = const ActivityPage();
+        break;
+      case 2:
+        bodyContent = const ImpactPage();
+        break;
+      case 3:
+        bodyContent = const ProfilePage();
+        break;
+      case 0:
+      default:
+        bodyContent = _buildDiscoverContent();
+        break;
+    }
+
     return Scaffold(
       backgroundColor: DSColors.background,
-      body: SafeArea(
+      body: bodyContent,
+      bottomNavigationBar: BottomNavigationBar(
+        items: const [
+          BottomNavigationBarItem(
+            icon: Icon(Icons.explore),
+            label: 'Discover',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.show_chart),
+            label: 'Activity',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.emoji_events),
+            label: 'Impact',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.person),
+            label: 'Profile',
+          ),
+        ],
+        currentIndex: _currentIndex,
+        selectedItemColor: DSColors.ctaTeal,
+        unselectedItemColor: DSColors.secondaryText,
+        showUnselectedLabels: true,
+        type: BottomNavigationBarType.fixed,
+        onTap: (index) {
+          setState(() {
+            _currentIndex = index;
+          });
+        },
+      ),
+    );
+  }
+
+  // Refactored existing Discover content into a method
+  Widget _buildDiscoverContent() {
+    return SafeArea(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -118,7 +190,7 @@ class _OpportunityPageState extends State<OpportunityPage> {
                                 right: Spacers.md,
                                 bottom: Spacers.lg,
                               ),
-                              children: const [
+                              children: [
                                 OpportunityCard(
                                   duration: "10 MIN",
                                   distance: "0.5 mi away",
@@ -128,8 +200,16 @@ class _OpportunityPageState extends State<OpportunityPage> {
                                   avgCompletionTime: "8 min 42 sec",
                                   location: "Community Center",
                                   dateTime: "Today, 3:00 PM",
+                                  onTap: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => const OpportunityDetailPage(),
+                                      ),
+                                    );
+                                  },
                                 ),
-                                SizedBox(height: Spacers.md),
+                                const SizedBox(height: Spacers.md),
                                 OpportunityCard(
                                   duration: "10 MIN",
                                   distance: "0.8 mi away",
@@ -139,8 +219,16 @@ class _OpportunityPageState extends State<OpportunityPage> {
                                   avgCompletionTime: "9 min 15 sec",
                                   location: "Willow Creek Home",
                                   dateTime: "Tomorrow, 10:00 AM",
+                                  onTap: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => const OpportunityDetailPage(),
+                                      ),
+                                    );
+                                  },
                                 ),
-                                SizedBox(height: Spacers.md),
+                                const SizedBox(height: Spacers.md),
                                 OpportunityCard(
                                   duration: "10 MIN",
                                   distance: "0.5 mi away",
@@ -150,6 +238,14 @@ class _OpportunityPageState extends State<OpportunityPage> {
                                   avgCompletionTime: "9 min 15 sec",
                                   location: "Riverside Park",
                                   dateTime: "Today, 5:00 PM",
+                                  onTap: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => const OpportunityDetailPage(),
+                                      ),
+                                    );
+                                  },
                                 ),
                               ],
                             )),
@@ -191,32 +287,6 @@ class _OpportunityPageState extends State<OpportunityPage> {
             ),
           ],
         ),
-      ),
-      bottomNavigationBar: BottomNavigationBar(
-        items: const [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.explore),
-            label: 'Discover',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.show_chart),
-            label: 'Activity',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.emoji_events),
-            label: 'Impact',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.person),
-            label: 'Profile',
-          ),
-        ],
-        currentIndex: 0,
-        selectedItemColor: DSColors.ctaTeal,
-        unselectedItemColor: DSColors.secondaryText,
-        showUnselectedLabels: true,
-        type: BottomNavigationBarType.fixed,
-      ),
     );
   }
 }
