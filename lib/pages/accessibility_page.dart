@@ -197,7 +197,7 @@ class _AccessibilityPageState extends State<AccessibilityPage> {
         Switch(
           value: value, 
           onChanged: onChanged,
-          activeColor: DSColors.ctaTeal,
+          activeTrackColor: DSColors.ctaTeal,
         ),
       ],
     );

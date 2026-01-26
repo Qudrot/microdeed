@@ -71,7 +71,7 @@ class _DirectionsPageState extends State<DirectionsPage> {
     final routePolyline = Polyline(
       polylineId: const PolylineId('route'),
       points: [_startLocation, _destinationLocation],
-      color: DSColors.urgency.withOpacity(0.6), // Orange-ish
+      color: DSColors.urgency.withValues(alpha: 0.6), // Orange-ish
       width: 5,
       patterns: [PatternItem.dash(20), PatternItem.gap(10)], // Try patterns if supported
     );
@@ -188,7 +188,7 @@ class _DirectionsPageState extends State<DirectionsPage> {
                     borderRadius: BorderRadius.circular(Spacers.xl),
                     boxShadow: [
                       BoxShadow(
-                        color: Colors.black.withOpacity(0.1),
+                        color: Colors.black.withValues(alpha: 0.1),
                         blurRadius: 10,
                         offset: const Offset(0, 5),
                       ),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:microdeed/design_system/colors.dart';
 import 'package:microdeed/design_system/spacers.dart';
 import 'package:microdeed/design_system/styles.dart';
@@ -50,6 +51,7 @@ class _InterestPageState extends State<InterestPage> {
   ];
 
   void _toggleInterest(String title) {
+    HapticFeedback.lightImpact();
     setState(() {
       if (_selectedInterests.contains(title)) {
         _selectedInterests.remove(title);

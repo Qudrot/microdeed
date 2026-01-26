@@ -7,8 +7,9 @@ import '../design_system/styles.dart';
 
 
 class CircularTimer extends StatefulWidget {
-  const CircularTimer({super.key, required this.duration});
+  const CircularTimer({super.key, required this.duration, this.onComplete});
   final Duration duration;
+  final VoidCallback? onComplete;
 
   @override
   State<CircularTimer> createState() => _CircularTimerState();
@@ -25,7 +26,15 @@ class _CircularTimerState extends State<CircularTimer>
     _animationController = AnimationController(
       vsync: this,
       duration: widget.duration,
-    )..forward();
+    );
+
+    _animationController.addStatusListener((status) {
+      if (status == AnimationStatus.completed) {
+        widget.onComplete?.call();
+      }
+    });
+
+    _animationController.forward();
   }
 
   @override

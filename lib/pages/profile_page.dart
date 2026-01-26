@@ -87,7 +87,7 @@ class ProfilePage extends StatelessWidget {
                         activeTrackColor: DSColors.borders, // Light grey track
                         inactiveTrackColor: DSColors.borders,
                         thumbColor: DSColors.ctaTeal,
-                        overlayColor: DSColors.ctaTeal.withOpacity(0.2),
+                        overlayColor: DSColors.ctaTeal.withValues(alpha: 0.2),
                         trackHeight: 6.0,
                         thumbShape: const RoundSliderThumbShape(enabledThumbRadius: 10.0),
                       ),
@@ -306,7 +306,7 @@ class ProfilePage extends StatelessWidget {
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(Spacers.md),
-        border: Border.all(color: DSColors.borders.withOpacity(0.5)), // Very subtle
+        border: Border.all(color: DSColors.borders.withValues(alpha: 0.5)), // Very subtle
       ),
       child: child,
     );
@@ -318,7 +318,7 @@ class ProfilePage extends StatelessWidget {
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(Spacers.md),
-        border: Border.all(color: DSColors.borders.withOpacity(0.5)),
+        border: Border.all(color: DSColors.borders.withValues(alpha: 0.5)),
       ),
       child: Column(children: children),
     );

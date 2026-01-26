@@ -21,15 +21,7 @@ class _TimerPageState extends State<TimerPage> {
   @override
   void initState() {
     super.initState();
-    // Simulate timer finishing after 5 seconds for demo
-    Future.delayed(const Duration(seconds: 5), () {
-      if (mounted) {
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) => const CompletionPage()),
-        );
-      }
-    });
+    // Timer handles its own state and completion via callback now
   }
 
   @override
@@ -69,7 +61,15 @@ class _TimerPageState extends State<TimerPage> {
               const SizedBox(height: Spacers.mmd),
 
               // Timer
-              const CircularTimer(duration: Duration(minutes: 10)),
+              CircularTimer(
+                duration: const Duration(seconds: 10),
+                onComplete: () {
+                   Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(builder: (context) => const CompletionPage()),
+                  );
+                },
+              ),
 
               const SizedBox(height: Spacers.sm),
 

@@ -115,7 +115,7 @@ class OpportunityDetailPage extends StatelessWidget {
                           Container(
                             padding: const EdgeInsets.all(Spacers.md),
                             decoration: BoxDecoration(
-                              color: DSColors.tealLight.withOpacity(0.5),
+                              color: DSColors.tealLight.withValues(alpha: 0.5),
                               borderRadius: BorderRadius.circular(Spacers.md),
                             ),
                             child: Column(
@@ -158,11 +158,18 @@ class OpportunityDetailPage extends StatelessWidget {
                                 // Progress Bar
                                 ClipRRect(
                                   borderRadius: BorderRadius.circular(4),
-                                  child: LinearProgressIndicator(
-                                    value: 243 / 247,
-                                    backgroundColor: Colors.white,
-                                    valueColor: const AlwaysStoppedAnimation<Color>(DSColors.ctaTeal),
-                                    minHeight: 8,
+                                  child: TweenAnimationBuilder<double>(
+                                    tween: Tween<double>(begin: 0.0, end: 243 / 247),
+                                    duration: const Duration(seconds: 2),
+                                    curve: Curves.easeOut,
+                                    builder: (context, value, _) {
+                                      return LinearProgressIndicator(
+                                        value: value,
+                                        backgroundColor: Colors.white,
+                                        valueColor: const AlwaysStoppedAnimation<Color>(DSColors.ctaTeal),
+                                        minHeight: 8,
+                                      );
+                                    },
                                   ),
                                 ),
                                 const SizedBox(height: Spacers.xs),

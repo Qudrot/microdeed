@@ -103,7 +103,7 @@ class _OpportunityPageState extends State<OpportunityPage> {
           children: [
             // Custom Top Bar with conditional background
             Container(
-              color: _showMap ? DSColors.surface.withOpacity(0.9) : null,
+              color: _showMap ? DSColors.surface.withValues(alpha: 0.9) : null,
               padding: const EdgeInsets.all(Spacers.md),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -260,7 +260,7 @@ class _OpportunityPageState extends State<OpportunityPage> {
                         border: Border.all(color: DSColors.borders),
                         boxShadow: [
                           BoxShadow(
-                            color: Colors.black.withOpacity(0.05),
+                            color: Colors.black.withValues(alpha: 0.05),
                             blurRadius: 4,
                             offset: const Offset(0, 2),
                           ),
@@ -307,7 +307,7 @@ class _ToggleItem extends StatelessWidget {
       decoration: BoxDecoration(
         color: isSelected
             ? DSColors.surface
-            : DSColors.background.withOpacity(0.5),
+            : DSColors.background.withValues(alpha: 0.5),
         borderRadius: BorderRadius.circular(Spacers.sm),
       ),
       child: Text(

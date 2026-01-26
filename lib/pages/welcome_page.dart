@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:microdeed/design_system/colors.dart';
 import 'package:microdeed/design_system/spacers.dart';
 import 'package:microdeed/design_system/styles.dart';
@@ -37,7 +38,7 @@ class WelcomePage extends StatelessWidget {
                     ),
                     textAlign: TextAlign.center,
                   ),
-                  const SizedBox(height: Spacers.md),
+                  const SizedBox(height: Spacers.sm),
                   
                   // Subtitle
                   Text(
@@ -66,12 +67,7 @@ class WelcomePage extends StatelessWidget {
 
                   // Action Button
                   ElevatedButton(
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => const InterestPage()),
-                      );
-                    },
+                    onPressed: () => _handleStart(context),
                     style: ElevatedButton.styleFrom(
                       backgroundColor: DSColors.ctaTeal,
                       foregroundColor: Colors.white,
@@ -95,7 +91,7 @@ class WelcomePage extends StatelessWidget {
                     child: Text(
                       'How it works',
                       style: Styles.bodyRegular.copyWith(
-                        color: Colors.grey,
+                        color: DSColors.secondaryText,
                         decoration: TextDecoration.underline,
                       ),
                     ),
@@ -110,15 +106,54 @@ class WelcomePage extends StatelessWidget {
     );
   }
 
+  Future<void> _handleStart(BuildContext context) async {
+    // 1. Request Location Permission
+    LocationPermission permission = await Geolocator.checkPermission();
+    if (permission == LocationPermission.denied) {
+      permission = await Geolocator.requestPermission();
+      if (permission == LocationPermission.denied) {
+        // Handle denied permission (optional: show snackbar)
+        return; 
+      }
+    }
+    
+    if (permission == LocationPermission.deniedForever) {
+      // Handle denied forever
+      return;
+    }
+
+    // 2. Lateral Slide Transition to InterestPage
+    if (context.mounted) {
+      Navigator.push(
+        context,
+        PageRouteBuilder(
+          pageBuilder: (context, animation, secondaryAnimation) => const InterestPage(),
+          transitionsBuilder: (context, animation, secondaryAnimation, child) {
+            const begin = Offset(1.0, 0.0); // Slide from right
+            const end = Offset.zero;
+            const curve = Curves.easeInOut;
+
+            var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+
+            return SlideTransition(
+              position: animation.drive(tween),
+              child: child,
+            );
+          },
+        ),
+      );
+    }
+  }
+
   Widget _buildInfoRow({required IconData icon, required String text, required Color color}) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Icon(icon, color: color, size: 20),
-        const SizedBox(width: Spacers.sm),
+        const SizedBox(width: Spacers.base),
         Text(
           text,
-          style: Styles.bodyRegular.copyWith(color: Colors.grey), // Text color seems grey in screenshot for both
+          style: Styles.bodyRegular.copyWith(color: DSColors.secondaryText),
         ),
       ],
     );

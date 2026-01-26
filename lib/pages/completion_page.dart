@@ -1,31 +1,56 @@
+import 'package:confetti/confetti.dart';
 import 'package:flutter/material.dart';
 import 'package:microdeed/design_system/colors.dart';
 import 'package:microdeed/design_system/spacers.dart';
 import 'package:microdeed/design_system/styles.dart';
 import 'package:microdeed/pages/reflection_page.dart';
+import 'package:microdeed/pages/share_impact_page.dart';
 
-class CompletionPage extends StatelessWidget {
+class CompletionPage extends StatefulWidget {
   const CompletionPage({super.key});
+
+  @override
+  State<CompletionPage> createState() => _CompletionPageState();
+}
+
+class _CompletionPageState extends State<CompletionPage> {
+  late ConfettiController _confettiController;
+
+  @override
+  void initState() {
+    super.initState();
+    _confettiController = ConfettiController(duration: const Duration(seconds: 3));
+    _confettiController.play();
+  }
+
+  @override
+  void dispose() {
+    _confettiController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xFF243441), // Carbon/Dark background
-      body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.all(Spacers.xl),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const Spacer(),
-              // Badge Animation / Graphic
+      body: Stack(
+        alignment: Alignment.topCenter,
+        children: [
+          SafeArea(
+            child: Padding(
+              padding: const EdgeInsets.all(Spacers.xl),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Spacer(),
+                  // Badge Animation / Graphic
               Container(
                 width: 200,
                 height: 200,
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
-                  color: DSColors.tealMain.withOpacity(0.2),
-                  border: Border.all(color: DSColors.tealMain.withOpacity(0.5)),
+                  color: DSColors.tealMain.withValues(alpha: 0.2),
+                  border: Border.all(color: DSColors.tealMain.withValues(alpha: 0.5)),
                 ),
                 child: Center(
                   child: Stack(
@@ -39,7 +64,7 @@ class CompletionPage extends StatelessWidget {
                            shape: BoxShape.circle,
                            boxShadow: [
                              BoxShadow(
-                               color: DSColors.tealMain.withOpacity(0.6),
+                               color: DSColors.tealMain.withValues(alpha: 0.6),
                                blurRadius: 40,
                                spreadRadius: 10,
                              ),
@@ -85,7 +110,10 @@ class CompletionPage extends StatelessWidget {
                 width: double.infinity,
                 child: ElevatedButton(
                   onPressed: () {
-                    // Share logic
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => const ShareImpactPage()),
+                    );
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: DSColors.ctaTeal,
@@ -114,6 +142,14 @@ class CompletionPage extends StatelessWidget {
             ],
           ),
         ),
+      ),
+      ConfettiWidget(
+        confettiController: _confettiController,
+        blastDirectionality: BlastDirectionality.explosive,
+        shouldLoop: false,
+        colors: const [DSColors.ctaTeal, Colors.purple, Colors.orange, Colors.white],
+      ),
+        ],
       ),
     );
   }

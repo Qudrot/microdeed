@@ -4,8 +4,35 @@ import 'package:microdeed/design_system/spacers.dart';
 import 'package:microdeed/design_system/styles.dart';
 import 'package:microdeed/pages/timer_page.dart';
 
-class InstructionPage extends StatelessWidget {
+class InstructionPage extends StatefulWidget {
   const InstructionPage({super.key});
+
+  @override
+  State<InstructionPage> createState() => _InstructionPageState();
+}
+
+class _InstructionPageState extends State<InstructionPage> {
+  bool _canStart = false;
+  final List<bool> _stepsDimmed = [false, false, false];
+
+  @override
+  void initState() {
+    super.initState();
+    // 3-second Mental Commitment Gate
+    Future.delayed(const Duration(seconds: 3), () {
+      if (mounted) {
+        setState(() {
+          _canStart = true;
+        });
+      }
+    });
+  }
+
+  void _toggleStep(int index) {
+    setState(() {
+      _stepsDimmed[index] = !_stepsDimmed[index];
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -28,13 +55,13 @@ class InstructionPage extends StatelessWidget {
                         shape: BoxShape.circle,
                         boxShadow: [
                           BoxShadow(
-                            color: DSColors.success.withOpacity(0.3),
+                            color: DSColors.success.withValues(alpha: 0.3),
                             blurRadius: 20,
                             offset: const Offset(0, 10),
                           ),
                         ],
                       ),
-                      child: const _CustomIcon(), // Or Icon(Icons.inventory_2, size: 40, color: Colors.white)
+                      child: const _CustomIcon(),
                     ),
                     const SizedBox(height: Spacers.lg),
                     
@@ -112,16 +139,19 @@ class InstructionPage extends StatelessWidget {
                           ),
                           const SizedBox(height: Spacers.lg),
                           _buildStepItem(
+                            index: 0,
                             number: '1',
                             text: 'Arrive at the Community Center and find the volunteer desk.',
                           ),
                           const SizedBox(height: Spacers.md),
                           _buildStepItem(
+                            index: 1,
                             number: '2',
                             text: "Check in with staff, stating you're a 'QuickDeed volunteer'.",
                           ),
                           const SizedBox(height: Spacers.md),
                           _buildStepItem(
+                            index: 2,
                             number: '3',
                             text: 'Sort the designated books onto shelves by age group.',
                           ),
@@ -136,28 +166,33 @@ class InstructionPage extends StatelessWidget {
             // Bottom Button
             Padding(
               padding: const EdgeInsets.all(Spacers.lg),
-              child: SizedBox(
-                width: double.infinity,
-                child: ElevatedButton(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => const TimerPage()),
-                    );
-                  },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: DSColors.ctaTeal,
-                    foregroundColor: Colors.white,
-                    padding: const EdgeInsets.symmetric(vertical: Spacers.md),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(Spacers.xl),
+              child: AnimatedOpacity(
+                duration: const Duration(milliseconds: 300),
+                opacity: _canStart ? 1.0 : 0.5,
+                child: SizedBox(
+                  width: double.infinity,
+                  child: ElevatedButton(
+                    onPressed: _canStart ? () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => const TimerPage()),
+                      );
+                    } : null,
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: DSColors.ctaTeal,
+                      foregroundColor: Colors.white,
+                      disabledBackgroundColor: DSColors.inactive, // Grey out
+                      padding: const EdgeInsets.symmetric(vertical: Spacers.md),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(Spacers.xl),
+                      ),
+                      textStyle: Styles.bodyRegular.copyWith(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 18,
+                      ),
                     ),
-                    textStyle: Styles.bodyRegular.copyWith(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 18,
-                    ),
+                    child: Text(_canStart ? 'Start 10-Minute Timer' : 'Read instructions... (3s)'),
                   ),
-                  child: const Text('Start 10-Minute Timer'),
                 ),
               ),
             ),
@@ -167,26 +202,37 @@ class InstructionPage extends StatelessWidget {
     );
   }
 
-  Widget _buildStepItem({required String number, required String text}) {
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        CircleAvatar(
-          backgroundColor: DSColors.success,
-          radius: 14,
-          child: Text(
-            number,
-            style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
-          ),
+  Widget _buildStepItem({required int index, required String number, required String text}) {
+    final isDimmed = _stepsDimmed[index];
+    return GestureDetector(
+      onTap: () => _toggleStep(index),
+      child: AnimatedOpacity(
+        duration: const Duration(milliseconds: 300),
+        opacity: isDimmed ? 0.3 : 1.0,
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            CircleAvatar(
+              backgroundColor: DSColors.success,
+              radius: 14,
+              child: Text(
+                number,
+                style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+              ),
+            ),
+            const SizedBox(width: Spacers.md),
+            Expanded(
+              child: Text(
+                text,
+                style: Styles.bodyRegular.copyWith(
+                  color: DSColors.primaryText,
+                  decoration: isDimmed ? TextDecoration.lineThrough : null,
+                ),
+              ),
+            ),
+          ],
         ),
-        const SizedBox(width: Spacers.md),
-        Expanded(
-          child: Text(
-            text,
-            style: Styles.bodyRegular.copyWith(color: DSColors.primaryText),
-          ),
-        ),
-      ],
+      ),
     );
   }
 }

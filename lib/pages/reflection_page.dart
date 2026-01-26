@@ -107,7 +107,7 @@ class ReflectionPage extends StatelessWidget {
             color: Colors.white,
             borderRadius: BorderRadius.circular(Spacers.md),
             border: Border.all(color: isSelected ? Colors.purple : DSColors.borders),
-            boxShadow: isSelected ? [BoxShadow(color: Colors.purple.withOpacity(0.1), blurRadius: 10)] : null,
+            boxShadow: isSelected ? [BoxShadow(color: Colors.purple.withValues(alpha: 0.1), blurRadius: 10)] : null,
           ),
           child: Text(emoji, style: const TextStyle(fontSize: 32)),
         ),
